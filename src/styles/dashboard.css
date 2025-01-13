@@ -1,0 +1,36 @@
+.user {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  
+    h2 {
+      margin: 0;
+    }
+  
+  }
+
+  .overall-data {
+    display: flex;
+    margin-top: 20px;
+    gap: 20px;  
+  
+    .card {
+      background-color: var(--primary-color);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      width: 300px;
+  
+      h3 {
+        margin: 0;
+      }
+  
+      p {
+        margin: 10px 0 0 0;
+      }
+    }
+  }
+  
+  
+  

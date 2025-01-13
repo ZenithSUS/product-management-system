@@ -1,0 +1,122 @@
+:root {
+  --primary-color: #141d2f;
+  --secondary-color: #1e2a47;
+  --button-color: #0079d3;
+  --button-hover-color: #0056b3;
+  --light-color: #fff;
+  --dark-color: black;
+}
+
+body {
+  background-color: var(--secondary-color);
+}
+
+button {
+  cursor: pointer;
+  background-color: var(--button-color);
+  color: var(--light-color);
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: var(--button-hover-color);
+  }
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  color: var(--light-color);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--secondary-color);
+  padding: 20px;
+  margin-left: 250px;
+}
+
+header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--primary-color);
+  color: var(--light-color);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.sidebar {
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  color: var(--light-color);
+  background-color: var(--primary-color);
+  overflow-x: hidden;
+  padding-top: 80px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+  h2 {
+    margin: 0;
+    padding: 10px 20px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    a {
+      display: block;
+      font-size: 1.2rem;
+      text-decoration: none;
+      color: var(--light-color);
+      padding: 10px 0;
+      border-bottom: 1px solid #ccc;
+      cursor: pointer;
+      padding-left: 10px;
+      transition: background-color 0.3s ease;   
+
+      &:hover {
+        background-color: var(--secondary-color);
+      
+      }
+    }
+  }
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+  background-color: var(--primary-color);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+  }
+
+  td > .button-options {
+    display: flex;
+    gap: 10px;
+  }
+}
