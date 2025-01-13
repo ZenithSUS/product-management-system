@@ -103,6 +103,7 @@ header {
 table {
   border-collapse: collapse;
   width: 100%;
+  max-width: 800px;
   margin-top: 20px;
   background-color: var(--primary-color);
   border-radius: 8px;

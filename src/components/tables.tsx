@@ -31,3 +31,35 @@ export function ProductTable({ products }) {
         </table>
     );
 }
+
+export function OrderTable({ orders }) {
+    return (
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer Name</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {orders.map((order: any) => (
+                    <tr key={order.id}>
+                        <td>{order.id}</td>
+                        <td>{order.customerName}</td>
+                        <td>{order.productName}</td>
+                        <td>{order.quantity}</td>
+                        <td>
+                            <div className="button-options">
+                                <button>Edit</button>
+                                <button>Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
+}

@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Link, Navigate } from "react-ro
 import './styles/dashboard.css';
 import Dashboard from './navigation/dashboard';
 import Products from './navigation/products';
+import Orders from './navigation/orders';
 
 const products = [
   {id: 1, name: "Product 1", price: 10.99, quantity: 5},
@@ -10,11 +11,10 @@ const products = [
 ];
 
 const orders = [
-  {id: 1, name: "Order 1", price: 10.99, quantity: 5},
-  {id: 2, name: "Order 2", price: 19.99, quantity: 3},
-  {id: 3, name: "Order 3", price: 29.99, quantity: 2},
-  {id: 4, name: "Order 4", price: 39.99, quantity: 1},
-  {id: 5, name: "Order 5", price: 49.99, quantity: 2}
+  {id: 1, customerName: "Customer 1", productName: "Product 1", quantity: 2},
+  {id: 2, customerName: "Customer 2", productName: "Product 2", quantity: 1},
+  {id: 3, customerName: "Customer 3", productName: "Product 3", quantity: 3},
+  {id: 4, customerName: "Customer 4", productName: "Product 4", quantity: 4}
 ]
 
 const customers = [
@@ -33,7 +33,7 @@ function App() {
       <Routes>
         <Route path="/dashboard" element={token ? <Dashboard products={products} orders={orders} customers={customers} /> : <Navigate to="/login" />} />
         <Route path="/products" element={token ? <Products products={products} /> : <Navigate to="/login" />} />
-        <Route path="/orders" element={token ? <h2>Orders</h2> : <Navigate to="/login" />} />
+        <Route path="/orders" element={token ? <Orders orders={orders} /> : <Navigate to="/login" />} />
         <Route path="/customers" element={token ? <h2>Customers</h2> : <Navigate to="/login" />}  />
         <Route path="/login" element={token ? <Navigate to="/dashboard" /> : <h2>Login</h2>} />
         <Route path="*" element={token ? <h2>404 Not Found</h2> : <Navigate to="/login" />} />
