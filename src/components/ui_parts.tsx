@@ -1,6 +1,7 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Navigate } from "react-router-dom";
 import "../styles/dashboard.css";
+
 
 export function Header(props: any) {
     return (
@@ -8,7 +9,7 @@ export function Header(props: any) {
             <h1>Product Management System</h1>
             <div className="user">
                 <h2>{props.user.name}</h2>
-                <button onClick={() => window.location.href = "/login"}>Login</button>
+                <button onClick={() => { window.location.href = "/" }}>Login</button>
             </div>
         </header>
     );

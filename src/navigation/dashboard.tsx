@@ -1,7 +1,12 @@
 import React from "react";
+import { Header, Sidebar } from '../components/ui_parts';
+
 
 export function Dashboard(props: any) {
     return (
+      <>
+        <Header user={{ name: "User" }} />
+        <Sidebar />
         <main>
             <h2>Dashboard</h2>
             <div className="overall-data">
@@ -19,6 +24,7 @@ export function Dashboard(props: any) {
                 </div>
             </div>
         </main>
+      </>
     );
 }  
 

@@ -1,6 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { Header } from './components/ui_parts';
-import { Sidebar } from './components/ui_parts';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from "react-router-dom";
 import './styles/dashboard.css';
 import Dashboard from './navigation/dashboard';
 import Products from './navigation/products';
@@ -28,22 +26,21 @@ const customers = [
 ]
 
 function App() {
+  const token = true;
+
   return (
     <Router>
-      <Header user={{ name: "User" }} />
-      <Sidebar />
       <Routes>
-        <Route path="/dashboard" element={<Dashboard products={products} orders={orders} customers={customers} />} />
-        <Route path="/products" element={<Products products={products} />} />
-        <Route path="/orders" element={<h2>Orders</h2>} />
-        <Route path="/customers" element={<h2>Customers</h2>} />
-        <Route path="/login" element={<h2>Login</h2>} />
-        <Route path="*" element={<h2>404 Not Found</h2>} />
+        <Route path="/dashboard" element={token ? <Dashboard products={products} orders={orders} customers={customers} /> : <Navigate to="/login" />} />
+        <Route path="/products" element={token ? <Products products={products} /> : <Navigate to="/login" />} />
+        <Route path="/orders" element={token ? <h2>Orders</h2> : <Navigate to="/login" />} />
+        <Route path="/customers" element={token ? <h2>Customers</h2> : <Navigate to="/login" />}  />
+        <Route path="/login" element={token ? <Navigate to="/dashboard" /> : <h2>Login</h2>} />
+        <Route path="*" element={token ? <h2>404 Not Found</h2> : <Navigate to="/login" />} />
+        <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
   );
 }
-
-
 
 export default App;
