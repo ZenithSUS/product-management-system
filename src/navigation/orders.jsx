@@ -2,14 +2,14 @@ import React from "react";
 import { OrderTable } from "../components/tables";
 import { Header, Sidebar } from "../components/ui_parts";
 
-export function Orders(props: any) {
+export function Orders({ orders }) {
     return (
         <>
-            <Header user={{name: "User"}} />
+            <Header />
             <Sidebar />
             <main>
                 <h2>Orders</h2>
-                <OrderTable orders={props.orders} />
+                <OrderTable orders={orders} />
             </main>
         </>
     );

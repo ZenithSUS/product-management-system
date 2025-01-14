@@ -1,8 +1,12 @@
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useStateContext } from "./context/context_provider";
 import './styles/dashboard.css';
 import Dashboard from './navigation/dashboard';
 import Products from './navigation/products';
 import Orders from './navigation/orders';
+import { Customers } from "./navigation/customers";
+import { Login } from "./auth/login";
+
 
 const products = [
   {id: 1, name: "Product 1", price: 10.99, quantity: 5},
@@ -26,16 +30,15 @@ const customers = [
 ]
 
 function App() {
-  const token = true;
-
+  const { token } = useStateContext();
   return (
     <Router>
       <Routes>
         <Route path="/dashboard" element={token ? <Dashboard products={products} orders={orders} customers={customers} /> : <Navigate to="/login" />} />
         <Route path="/products" element={token ? <Products products={products} /> : <Navigate to="/login" />} />
         <Route path="/orders" element={token ? <Orders orders={orders} /> : <Navigate to="/login" />} />
-        <Route path="/customers" element={token ? <h2>Customers</h2> : <Navigate to="/login" />}  />
-        <Route path="/login" element={token ? <Navigate to="/dashboard" /> : <h2>Login</h2>} />
+        <Route path="/customers" element={token ? <Customers customers={customers} /> : <Navigate to="/login" />}  />
+        <Route path="/login" element={token ? <Navigate to="/dashboard" /> : <Login />} />
         <Route path="*" element={token ? <h2>404 Not Found</h2> : <Navigate to="/login" />} />
         <Route path="/" element={<Navigate to="/login" />} />
       </Routes>

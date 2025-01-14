@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        background-color: var(--primary-color);
+        padding: 2rem;
+        background-color: var(--primary-color);
+        color: var(--light-color);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        border-radius: 20px;
+        width: 400px;
+
+        h1 {
+            text-align: center;
+        }
+
+        input {
+            margin-bottom: 10px;
+        }
+
+        .input-field {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+    }
+}

@@ -1,11 +1,19 @@
 import React from "react";
 import { Header, Sidebar } from '../components/ui_parts';
+import { useStateContext } from "../context/context_provider";
+import { Navigate } from "react-router-dom";
 
 
-export function Dashboard(props: any) {
+export function Dashboard(props) {
+    const { token } = useStateContext();
+
+    if(!token) {
+        return <Navigate to="/login" />   
+    }
+
     return (
       <>
-        <Header user={{ name: "User" }} />
+        <Header />
         <Sidebar />
         <main>
             <h2>Dashboard</h2>

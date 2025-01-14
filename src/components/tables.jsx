@@ -13,7 +13,7 @@ export function ProductTable({ products }) {
                 </tr>
             </thead>
             <tbody>
-                {products.map((product: any) => (
+                {products.map((product) => (
                     <tr key={product.id}>
                         <td>{product.id}</td>
                         <td>{product.name}</td>
@@ -45,12 +45,42 @@ export function OrderTable({ orders }) {
                 </tr>
             </thead>
             <tbody>
-                {orders.map((order: any) => (
+                {orders.map((order) => (
                     <tr key={order.id}>
                         <td>{order.id}</td>
                         <td>{order.customerName}</td>
                         <td>{order.productName}</td>
                         <td>{order.quantity}</td>
+                        <td>
+                            <div className="button-options">
+                                <button>Edit</button>
+                                <button>Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
+}
+
+export function CustomerTable({ customers }) {
+    return (
+        <table>
+            <thead>
+                <tr>
+                    <th>Customer ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {customers.map((customer) => (
+                    <tr key={customer.id}>
+                        <td>{customer.id}</td>
+                        <td>{customer.name}</td>
+                        <td>{customer.email}</td>
                         <td>
                             <div className="button-options">
                                 <button>Edit</button>
