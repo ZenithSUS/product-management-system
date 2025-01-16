@@ -6,6 +6,7 @@ import Products from './navigation/products';
 import Orders from './navigation/orders';
 import { Customers } from "./navigation/customers";
 import { Login } from "./auth/login";
+import { Register } from "./auth/register";
 
 
 const products = [
@@ -32,6 +33,7 @@ function App() {
         <Route path="/orders" element={token ? <Orders orders={orders} /> : <Navigate to="/login" />} />
         <Route path="/customers" element={token ? <Customers /> : <Navigate to="/login" />}  />
         <Route path="/login" element={token ? <Navigate to="/dashboard" /> : <Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="*" element={token ? <h2>404 Not Found</h2> : <Navigate to="/login" />} />
         <Route path="/" element={<Navigate to="/login" />} />
       </Routes>

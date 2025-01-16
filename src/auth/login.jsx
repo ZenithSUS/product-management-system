@@ -1,8 +1,11 @@
 import React, { useRef, useState } from "react";
+import { Navigate } from "react-router-dom";
 import { useStateContext } from "../context/context_provider";
 import '../styles/login.css'
 
-const LoginForm = () => {
+
+
+export function Login() {
     const { setUser, setToken } = useStateContext();
     const usernameRef = useRef();
     const passwordRef = useRef();
@@ -32,17 +35,10 @@ const LoginForm = () => {
                         <input ref={passwordRef} type="password" name="password" id="password" placeholder="Password" />
                     </div>
                     <button type="submit">Login</button>
+                    
+                    <p>Don't have an account? <a href="/register"> Register here </a></p>
                 </form>
             </div>
         </>
     ); 
-} 
-
-export function Login() {
-    const form = LoginForm();
-    return (
-        <>
-            {form}
-        </>
-    )
 }

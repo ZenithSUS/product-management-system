@@ -11,6 +11,13 @@ body {
   background-color: var(--secondary-color);
 }
 
+span {
+  display: block;
+  color: red;
+  font-weight: bold;
+  margin: 0 5px;
+}
+
 button {
   cursor: pointer;
   background-color: var(--button-color);
@@ -41,7 +48,7 @@ main {
   justify-content: center;
   background-color: var(--secondary-color);
   padding: 20px;
-  margin-left: 250px;
+  margin-left: calc(250px + 2rem);
 }
 
 header {
@@ -111,7 +118,7 @@ input {
 
 label {
   font-weight: 800;
-  margin-bottom: 2px;
+  margin-bottom: 5px;
 }
 
 table {
