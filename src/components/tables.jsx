@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export function ProductTable({ products }) {
     return (
@@ -65,11 +66,11 @@ export function OrderTable({ orders }) {
 }
 
 export function CustomerTable({ customers }) {
+    const Navigate = useNavigate();
     return (
         <table>
             <thead>
                 <tr>
-                    <th>Customer ID</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Actions</th>
@@ -78,12 +79,11 @@ export function CustomerTable({ customers }) {
             <tbody>
                 {customers.map((customer) => (
                     <tr key={customer.id}>
-                        <td>{customer.id}</td>
                         <td>{customer.name}</td>
                         <td>{customer.email}</td>
                         <td>
                             <div className="button-options">
-                                <button>Edit</button>
+                                <button onClick={() => { Navigate(`/customers/${customer.id}`)}}>Edit</button>
                                 <button>Delete</button>
                             </div>
                         </td>

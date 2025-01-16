@@ -21,23 +21,16 @@ const orders = [
   {id: 4, customerName: "Customer 4", productName: "Product 4", quantity: 4}
 ]
 
-const customers = [
-  {id: 1, name: "Customer 1", email: "6o9fD@example.com"},
-  {id: 2, name: "Customer 2", email: "6o9fD@example.com"},
-  {id: 3, name: "Customer 3", email: "6o9fD@example.com"},
-  {id: 4, name: "Customer 4", email: "6o9fD@example.com"},
-  {id: 5, name: "Customer 5", email: "6o9fD@example.com"}
-]
 
 function App() {
   const { token } = useStateContext();
   return (
     <Router>
       <Routes>
-        <Route path="/dashboard" element={token ? <Dashboard products={products} orders={orders} customers={customers} /> : <Navigate to="/login" />} />
+        <Route path="/dashboard" element={token ? <Dashboard products={products} orders={orders} /> : <Navigate to="/login" />} />
         <Route path="/products" element={token ? <Products products={products} /> : <Navigate to="/login" />} />
         <Route path="/orders" element={token ? <Orders orders={orders} /> : <Navigate to="/login" />} />
-        <Route path="/customers" element={token ? <Customers customers={customers} /> : <Navigate to="/login" />}  />
+        <Route path="/customers" element={token ? <Customers /> : <Navigate to="/login" />}  />
         <Route path="/login" element={token ? <Navigate to="/dashboard" /> : <Login />} />
         <Route path="*" element={token ? <h2>404 Not Found</h2> : <Navigate to="/login" />} />
         <Route path="/" element={<Navigate to="/login" />} />
