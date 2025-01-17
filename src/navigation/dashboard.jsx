@@ -16,11 +16,9 @@ export function Dashboard(props) {
         await fetch("http://localhost/PMS_Api/request/customers.php", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "X-Authorization": `Bearer ${token}`,
             },
-            body: JSON.stringify({
-                token: localStorage.getItem('TOKEN')
-            })
         }).then((response) => response.json())
             .then((data) => setCustomers(data.data.length))
             .catch((error) => console.log(error));
@@ -47,7 +45,7 @@ export function Dashboard(props) {
                 </div>
                 <div className="card">
                     <h3>Customers</h3>
-                    <p>{customers || <p>Loading...</p>}</p>
+                    <p>{customers !== 0 ? customers : "Loading..."}</p>
                 </div>
             </div>
         </main>

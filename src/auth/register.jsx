@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import '../styles/register.css'
+import '../styles/auth.css'
 
 export function Register() {
     const emailInput = useRef();
@@ -49,20 +49,21 @@ export function Register() {
                 </div>
                 <div className="input-field">
                     <label htmlFor="Email">Email</label>
-                    <input type="email" placeholder="Email" ref={emailInput} name="email" onInput={() => {setErrors({...errors, email: ""})}} />
+                    <input type="text" placeholder="Email" ref={emailInput} name="email" onInput={() => {setErrors({...errors, email: ""})}} />
                     <span className="error-message">{errors.email || errors.emailValid}</span>
                 </div>
                 <div className="input-field">
                     <label htmlFor="Password">Password</label>
-                    <input type="password" placeholder="Password" ref={passwordInput} name="password" onInput={() => {setErrors({...errors, password: ""})}}  />
-                    <span className="error-message">{errors.password || errors.passwordValid}</span>
+                    <input type="password" placeholder="Password" ref={passwordInput} name="password" onInput={() => {setErrors({...errors, password: "", passwordValid: ""})}}  />
+                    <span className="error-message">{errors.password || (errors.passwordValid && Object.values(errors.passwordValid).map((element, index) => <span key={index}>{"- " + element}</span>))}</span>
                 </div>  
                 <div className="input-field">
                     <label htmlFor="ConfirmPassword">Confirm Password</label>
                     <input type="password" placeholder="Confirm Password" ref={confirmpasswordInput} name="confirmpassword" onInput={() => {setErrors({...errors, confirmpassword: ""})}}  />
                     <span className="error-message">{errors.confirmpassword}</span>
                 </div>
-                <button type="submit" value={"Register"}>Register</button>  
+                <button type="submit" value={"Register"}>Register</button>
+                <p className="login-link">Already have an account? <a href="/login">Login</a></p>  
             </form>
         </div>
     );
