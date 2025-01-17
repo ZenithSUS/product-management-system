@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { CustomerTable } from "../components/tables";
+import { useStateContext } from "../context/context_provider";
 import { Header, Sidebar } from "../components/ui_parts";
 
 export function Customers(){
+    const { token } = useStateContext();
     const [customers, setCustomers] = useState([]);
 
     useEffect(() => {
@@ -14,11 +16,9 @@ export function Customers(){
             { 
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "X-Authorization": `Bearer ${token}`,
                 },
-                body: JSON.stringify({
-                    token: localStorage.getItem('TOKEN')
-                }),
             }
         )
             .then((response) => response.json())

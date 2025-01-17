@@ -77,7 +77,7 @@ export function CustomerTable({ customers }) {
                 </tr>
             </thead>
             <tbody>
-                {customers.map((customer) => (
+                {customers && customers.map((customer) => (
                     <tr key={customer.id}>
                         <td>{customer.name}</td>
                         <td>{customer.email}</td>
@@ -89,6 +89,13 @@ export function CustomerTable({ customers }) {
                         </td>
                     </tr>
                 ))}
+                {
+                    customers.length === 0 && (
+                        <tr>
+                            <td colSpan={3} style={{textAlign: "center"}}>No customers found!</td>
+                        </tr>
+                    )
+                }
             </tbody>
         </table>
     );
