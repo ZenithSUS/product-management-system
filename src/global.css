@@ -125,6 +125,7 @@ table {
   width: 100%;
   max-width: 800px;
   margin-top: 20px;
+  margin-bottom: 20px;
   background-color: var(--primary-color);
   border-radius: 8px;
   overflow: hidden;

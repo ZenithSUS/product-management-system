@@ -20,7 +20,7 @@ function App() {
         <Route path="/login" element={token ? <Navigate to="/dashboard" /> : <Login />} />
         <Route path="/register" element={token ? <Navigate to="/dashboard" /> : <Register />} />
         <Route path="*" element={token ? <h2>404 Not Found</h2> : <Navigate to="/login" />} />
-        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/" element={token ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
       </Routes>
     </Router>
   );

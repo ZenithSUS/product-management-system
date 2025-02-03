@@ -2,42 +2,53 @@ import React, { useState, useEffect } from "react";
 import { CustomerTable } from "../components/tables";
 import { useStateContext } from "../context/context_provider";
 import { Header, Sidebar } from "../components/ui_parts";
+import { AddCustomer } from "../components/forms";
 
 export function Customers(){
     const { token } = useStateContext();
     const [customers, setCustomers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
-        getAllCustomers();
-    }, []);
+        let isMounted = true;
+        
+        async function getAllCustomers () {
+            setLoading(true);
 
-    async function getAllCustomers () {
-        setLoading(true);
-
-        try {
-            const formData = new FormData();
-            formData.append("process", "get_all_customers");
-            const response = await fetch("http://localhost/PMS_Api/request/customers.php", 
-                { 
-                    method: "POST",
-                    headers: {
-                        "X-Authorization": `Bearer ${token}`,
-                    },
-                    body: formData,
+            try {
+                const formData = new FormData();
+                formData.append("process", "get_all_customers");
+                const response = await fetch("http://localhost/PMS_Api/request/customers.php", 
+                    { 
+                        method: "POST",
+                        headers: {
+                            "X-Authorization": `Bearer ${token}`,
+                        },
+                        body: formData,
+                    }
+                )
+                const data = await response.json();
+                if (isMounted) {
+                    setCustomers(data.data);
                 }
-            )
-            const data = await response.json();
-            setCustomers(data.data);
 
-        } catch {
-            console.log(error);
-        } finally { 
-            setLoading(false);
+            } catch (error) {
+                console.log(error);
+            } finally { 
+                if (isMounted) {
+                    setLoading(false);
+                }
+            }
         }
-    }
 
-    
+        getAllCustomers();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [token, showForm]);
+
     return (
         <>
             <Header />
@@ -45,6 +56,13 @@ export function Customers(){
             <main>
                 <h2>Customers</h2>
                 <CustomerTable customers={customers} loading={loading} />
+                {!loading && customers && (
+                        <div className="button-options">
+                            <button onClick={() => { setShowForm(true) }}>Add Customer</button>
+                        </div> 
+                    )
+                }
+                { showForm && <AddCustomer setShowForm={setShowForm} token={token} /> }
             </main>
         </>
     );

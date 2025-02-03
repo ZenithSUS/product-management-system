@@ -54,7 +54,7 @@ export function Login() {
                     </div>
                     <button type="submit">Login</button>
                     <p className="register-link">Don't have an account? <a href="/register"> Register here </a></p>
-                    <span className="error">{error.auth_error || null}</span>
+                    <span className="error" style={{textAlign: "center", marginTop: "10px"}}>{error.auth_error || null}</span>
                 </form>
             </div>
         </>
