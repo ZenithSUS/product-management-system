@@ -1,12 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export function ProductTable({ products }) {
+export function ProductTable({ products, loading }) {
     return (
         <table>
             <thead>
                 <tr>
-                    <th>Product ID</th>
                     <th>Product Name</th>
                     <th>Price</th>
                     <th>Quantity</th>
@@ -14,9 +13,15 @@ export function ProductTable({ products }) {
                 </tr>
             </thead>
             <tbody>
-                {products.map((product) => (
+                {
+                    loading && (
+                        <tr>
+                            <td colSpan={4} style={{textAlign: "center"}}>Loading...</td>
+                        </tr>
+                    )
+                }
+                {!loading && products && products.map((product) => (
                     <tr key={product.id}>
-                        <td>{product.id}</td>
                         <td>{product.name}</td>
                         <td>{product.price}</td>
                         <td>{product.quantity}</td>
@@ -28,17 +33,23 @@ export function ProductTable({ products }) {
                         </td>
                     </tr>
                 ))}
+                {
+                    !loading && products.length === 0 && (
+                        <tr>
+                            <td colSpan={4} style={{textAlign: "center"}}>No products found!</td>
+                        </tr>
+                    )
+                }
             </tbody>
         </table>
     );
 }
 
-export function OrderTable({ orders }) {
+export function OrderTable({ orders, loading }) {
     return (
         <table>
             <thead>
                 <tr>
-                    <th>Order ID</th>
                     <th>Customer Name</th>
                     <th>Product Name</th>
                     <th>Quantity</th>
@@ -46,9 +57,15 @@ export function OrderTable({ orders }) {
                 </tr>
             </thead>
             <tbody>
-                {orders.map((order) => (
+                {
+                    loading && (
+                        <tr>
+                            <td colSpan={4} style={{textAlign: "center"}}>Loading...</td>
+                        </tr>
+                    )
+                }
+                {!loading && orders && orders.map((order) => (
                     <tr key={order.id}>
-                        <td>{order.id}</td>
                         <td>{order.customerName}</td>
                         <td>{order.productName}</td>
                         <td>{order.quantity}</td>
@@ -60,12 +77,19 @@ export function OrderTable({ orders }) {
                         </td>
                     </tr>
                 ))}
+                {
+                    !loading && orders.length === 0 && (
+                        <tr>
+                            <td colSpan={4} style={{textAlign: "center"}}>No orders found!</td>
+                        </tr>
+                    )
+                }
             </tbody>
         </table>
     );
 }
 
-export function CustomerTable({ customers }) {
+export function CustomerTable({ customers, loading }) {
     const Navigate = useNavigate();
     return (
         <table>
@@ -77,7 +101,14 @@ export function CustomerTable({ customers }) {
                 </tr>
             </thead>
             <tbody>
-                {customers && customers.map((customer) => (
+                {
+                    loading && (
+                        <tr>
+                            <td colSpan={3} style={{textAlign: "center"}}>Loading...</td>
+                        </tr>
+                    )
+                }
+                {!loading && customers && customers.map((customer) => (
                     <tr key={customer.id}>
                         <td>{customer.name}</td>
                         <td>{customer.email}</td>
@@ -90,7 +121,7 @@ export function CustomerTable({ customers }) {
                     </tr>
                 ))}
                 {
-                    customers.length === 0 && (
+                    !loading && customers.length === 0 && (
                         <tr>
                             <td colSpan={3} style={{textAlign: "center"}}>No customers found!</td>
                         </tr>

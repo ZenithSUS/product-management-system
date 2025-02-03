@@ -6,25 +6,37 @@ import { Header, Sidebar } from "../components/ui_parts";
 export function Customers(){
     const { token } = useStateContext();
     const [customers, setCustomers] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getAllCustomers();
-    }, [customers]);
+    }, []);
 
     async function getAllCustomers () {
-        await fetch("http://localhost/PMS_Api/request/customers.php", 
-            { 
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-Authorization": `Bearer ${token}`,
-                },
-            }
-        )
-            .then((response) => response.json())
-            .then((data) => setCustomers(data.data))
-            .catch((error) => console.log(error));
+        setLoading(true);
+
+        try {
+            const formData = new FormData();
+            formData.append("process", "get_all_customers");
+            const response = await fetch("http://localhost/PMS_Api/request/customers.php", 
+                { 
+                    method: "POST",
+                    headers: {
+                        "X-Authorization": `Bearer ${token}`,
+                    },
+                    body: formData,
+                }
+            )
+            const data = await response.json();
+            setCustomers(data.data);
+
+        } catch {
+            console.log(error);
+        } finally { 
+            setLoading(false);
+        }
     }
+
     
     return (
         <>
@@ -32,7 +44,7 @@ export function Customers(){
             <Sidebar/>
             <main>
                 <h2>Customers</h2>
-                <CustomerTable customers={customers} />
+                <CustomerTable customers={customers} loading={loading} />
             </main>
         </>
     );
