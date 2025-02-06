@@ -5,13 +5,13 @@ import { Header, Sidebar } from "../components/ui_parts";
 import { AddCustomer } from "../components/forms";
 
 export function Customers(){
-    const { token } = useStateContext();
-    const [customers, setCustomers] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { token, loading, setLoading, changed, setChanged } = useStateContext();
+    const [customers, setCustomers] = useState([])
     const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
         let isMounted = true;
+        setChanged(false);
         
         async function getAllCustomers () {
             setLoading(true);
@@ -47,7 +47,7 @@ export function Customers(){
         return () => {
             isMounted = false;
         };
-    }, [token, showForm]);
+    }, [token, changed]);
 
     return (
         <>
@@ -62,7 +62,7 @@ export function Customers(){
                         </div> 
                     )
                 }
-                { showForm && <AddCustomer setShowForm={setShowForm} token={token} /> }
+                { showForm && <AddCustomer setShowForm={setShowForm} /> }
             </main>
         </>
     );

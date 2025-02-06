@@ -5,9 +5,8 @@ import { Header, Sidebar } from "../components/ui_parts";
 import { Navigate } from "react-router-dom";
 
 export function Products() {
-    const { token } = useStateContext();
+    const { token, loading, setLoading } = useStateContext();
     const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
 
     if(!token) {
         return <Navigate to='/login' />

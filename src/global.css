@@ -3,6 +3,7 @@
   --secondary-color: #1e2a47;
   --button-color: #0079d3;
   --button-hover-color: #0056b3;
+  --button-delete-hover-color: rgb(161, 37, 37);
   --light-color: #fff;
   --dark-color: black;
 }
@@ -29,6 +30,14 @@ button {
 
   &:hover {
     background-color: var(--button-hover-color);
+  }
+}
+
+.delete-btn {
+  background-color: red;
+
+  &:hover {
+    background-color: var(--button-delete-hover-color);
   }
 }
 

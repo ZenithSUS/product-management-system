@@ -3,13 +3,19 @@ import { createContext, useContext, useState } from 'react';
 const StateContext = createContext({
     user: null,
     token: null,
+    loading: null,
+    changed: null,
     setUser: () => {},
-    setToken: () => {}
+    setToken: () => {},
+    setLoading: () => {},
+    setChanged: () => {},
 });
 
 export const ContextProvider = ({children}) => {
     const [user, setUser] = useState('');
     const [token, _setToken] = useState(localStorage.getItem('TOKEN'));
+    const [loading, setLoading] = useState(true);
+    const [changed, setChanged] = useState(false);
 
     const setToken = (token) => {
         _setToken(token);
@@ -26,7 +32,11 @@ export const ContextProvider = ({children}) => {
             user, 
             setUser,
             token,
-            setToken 
+            setToken,
+            loading,
+            setLoading, 
+            changed,
+            setChanged,
         }}>
             {children}
         </StateContext.Provider>

@@ -4,11 +4,10 @@ import { useStateContext } from "../context/context_provider";
 import { Navigate } from "react-router-dom";
 
 export function Dashboard() {
-    const { token } = useStateContext();
+    const { token, loading, setLoading } = useStateContext();
     const [customers, setCustomers] = useState(0);
     const [orders, setOrders] = useState(0);
     const [products, setProducts] = useState(0);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getAllData();
