@@ -27,6 +27,7 @@ export function Orders() {
             });
 
             const data = await response.json();
+            console.log(data)
             setOrders(data.data);
         } catch {
             console.log(error);

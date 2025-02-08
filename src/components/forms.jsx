@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
-import { useRef, useState } from "react";
-import '../styles/forms.css'
+import React, { useEffect, useRef, useState } from "react";
 import { useStateContext } from "../context/context_provider";
 import { Header, Sidebar } from "./ui_parts";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import '../styles/forms.css'
 
 export const AddCustomer = ({ setShowForm }) => {
     const nameRef = useRef();
@@ -62,40 +61,70 @@ export const AddCustomer = ({ setShowForm }) => {
 };
 
 export const EditCustomer = () => {
+    const { token } = useStateContext();
     const { customerID } = useParams();
+    const [customer, setCustomer] = useState({ name: "", email: "" });
+    const [errors, setErrors] = useState({});
     const nameRef = useRef();
     const emailRef = useRef();
-    const { token } = useStateContext();
-    const [errors, setErrors] = useState({});
 
     useEffect(() => {
-        console.log(customerID)
-    }, [])
-    
-    async function handleSubmit(e) {
-        e.preventDefault();
+        fetchCustomer(customerID);
+    }, [customerID]);
 
-        const formData = new FormData();
-        formData.append("process", "add_customer");
-        formData.append("name", nameRef.current.value);
-        formData.append("email", emailRef.current.value);
-
-        const response = await fetch("http://localhost/PMS_Api/request/customers.php", {
-            method: "POST",
+    async function fetchCustomer(customerID) {
+        const response = await fetch(`http://localhost/PMS_Api/request/customers.php?id=${customerID}`, {
+            method: "GET",
             headers: {
                 "X-Authorization": `Bearer ${token}`,
             },
-            body: formData,
         });
 
         const data = await response.json();
-        
+
         if (data.status === 200) {
-            console.log(data.message);
+            setCustomer(data.data);
         } else {
             setErrors(data.error);
             console.log(data.error);
         }
+    }
+
+    async function editCustomer(e) {
+        e.preventDefault();
+        const formData = new FormData();
+        const name = nameRef.current.value ? nameRef.current.value : "";
+        const email = emailRef.current.value ? emailRef.current.value: "";
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('process', 'edit_customer');
+        const response = await fetch(`http://localhost/PMS_Api/request/customers.php?id=${customerID}`, {
+            method: "POST",
+            headers: {
+                "X-Authorization": `Bearer ${token}`
+            },
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.status === 200) {
+            window.location.href = '/customers';
+        } else {
+            setErrors(data.error);
+            console.log(data.error);
+        }
+    }
+
+    function handleCancel(e) {
+        e.preventDefault();
+        window.location.href = '/customers';
+    }
+
+    function handleInputChange(e) {
+        const { name, value } = e.target;
+        setCustomer(prevCustomer => ({ ...prevCustomer, [name]: value }));
+        console.log(customer.name)
     }
 
     return (
@@ -108,21 +137,21 @@ export const EditCustomer = () => {
             <h1>Edit Customer</h1>
                 <div className="input-field">
                     <label htmlFor="name">Name</label>
-                    <input ref={nameRef} type="text" id="name" name="name" onInput={() => {setErrors(prevErrors => ({ ...prevErrors, name: "" }))}} />
-                    {errors.name && <span className="error">{errors.name}</span>}
+                    <input ref={nameRef} type="text" id="name" name="name" onInput={() => {setErrors(prevErrors => ({ ...prevErrors, name: "" }))}} value={customer.name} onChange={handleInputChange} />
+                    {errors && errors.name && <span className="error">{errors.name}</span>}
                 </div>
                 <div className="input-field">
                     <label htmlFor="email">Email</label>
-                    <input ref={emailRef} type="email" id="email" name="email" onInput={() => {setErrors(prevErrors => ({ ...prevErrors, email: "" }))}} />
-                    {errors.email && <span className="error">{errors.email}</span>}
+                    <input ref={emailRef} type="email" id="email" name="email" onInput={() => {setErrors(prevErrors => ({ ...prevErrors, email: "" }))}} value={customer.email} onChange={handleInputChange} />
+                    {errors && errors.email && <span className="error">{errors.email}</span>}
                 </div>
                 <div className="button-options">
-                    <button type="submit" onClick={handleSubmit}>Add Customer</button>
-                    <button onClick={() => { Navigate('/customers') }}>Cancel</button>
+                    <button type="submit" onClick={editCustomer}>Save Changes</button>
+                    <button onClick={handleCancel}>Cancel</button>
                 </div>
             </form>
         </div>
         </main>
         </>
     );
-}; 
+};

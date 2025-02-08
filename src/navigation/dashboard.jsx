@@ -28,7 +28,7 @@ export function Dashboard() {
                 body: formData,
             });
             const customersData = await customersResponse.json();
-            setCustomers(customersData.data.length);
+            setCustomers(customersData !== 404 ? customersData.data.length : 0);
 
             // Orders 
             formData.append("process", "get_all_orders");
@@ -40,7 +40,7 @@ export function Dashboard() {
                 body: formData,
             });
             const ordersData = await ordersResponse.json();
-            setOrders(ordersData.data.length);
+            setOrders(ordersData.status !== 404 ? ordersData.data.length : 0);
 
             // Products
             formData.append("process", "get_all_products");
@@ -52,7 +52,7 @@ export function Dashboard() {
                 body: formData,
             });
             const productsData = await productsResponse.json();
-            setProducts(productsData.data.length);
+            setProducts(productsData.status !== 404 ? productsData.data.length : 0);
         } catch (error) {
             console.log(error);
         } finally {
