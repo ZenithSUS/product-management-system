@@ -3,17 +3,20 @@ import { useStateContext } from "../context/context_provider";
 import { OrderTable } from "../components/tables";
 import { Header, Sidebar } from "../components/ui_parts";
 import { Navigate } from "react-router-dom";
+import { AddOrder } from "../components/forms";
 
 export function Orders() {
-    const { token, loading, setLoading } = useStateContext();
+    const { token, loading, setLoading, changed, setChanged } = useStateContext();
     const [orders, setOrders] = useState([]);
+    const [ showForm, setShowForm ] = useState(false);
 
     useEffect(() => {
         getAllOrders();
-    }, []);
+    }, [token, changed]);
 
     async function getAllOrders() {
         try {
+            setChanged(false);
             setLoading(true);
             const formData = new FormData();
             formData.append("process", "get_all_orders");
@@ -29,7 +32,7 @@ export function Orders() {
             const data = await response.json();
             console.log(data)
             setOrders(data.data);
-        } catch {
+        } catch (error) {
             console.log(error);
         } finally {
             setLoading(false);
@@ -46,7 +49,14 @@ export function Orders() {
             <Sidebar />
             <main>
                 <h2>Orders</h2>
-                <OrderTable orders={orders} loading={loading} />
+                <OrderTable orders={orders} />
+                { !loading && (
+                    <div className="button-options">
+                        <button onClick={() => setShowForm(true)}>Add Order</button>
+                    </div>
+                )}
+            
+            { showForm && <AddOrder setShowForm={setShowForm}/> }
             </main>
         </>
     );

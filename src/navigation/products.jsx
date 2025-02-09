@@ -5,7 +5,7 @@ import { Header, Sidebar } from "../components/ui_parts";
 import { Navigate } from "react-router-dom";
 
 export function Products() {
-    const { token, loading, setLoading } = useStateContext();
+    const { token, setLoading } = useStateContext();
     const [products, setProducts] = useState([]);
 
     if(!token) {
@@ -14,7 +14,7 @@ export function Products() {
 
     useEffect(() => {
         getAllProducts();
-    }, []);
+    }, [token]);
 
     async function getAllProducts() {
         try {
@@ -45,7 +45,7 @@ export function Products() {
             <Sidebar />
             <main>
                 <h2>Products</h2>
-                <ProductTable products={products} loading={loading} />
+                <ProductTable products={products} />
             </main>
         </>
     );

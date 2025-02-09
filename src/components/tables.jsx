@@ -2,7 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useStateContext } from "../context/context_provider";
 
-export function ProductTable({ products, loading }) {
+export function ProductTable({ products }) {
+    const { loading } = useStateContext();
     return (
         <table>
             <thead>
@@ -46,7 +47,8 @@ export function ProductTable({ products, loading }) {
     );
 }
 
-export function OrderTable({ orders, loading }) {
+export function OrderTable({ orders }) {
+    const { loading } = useStateContext();
     return (
         <table>
             <thead>
@@ -90,8 +92,9 @@ export function OrderTable({ orders, loading }) {
     );
 }
 
-export function CustomerTable({ customers, loading }) {
+export function CustomerTable({ customers }) {
     const Navigate = useNavigate();
+    const { loading } = useStateContext();
     const { token, setChanged } = useStateContext();
 
     async function handleDelete(id) {
@@ -146,7 +149,7 @@ export function CustomerTable({ customers, loading }) {
                     </tr>
                 ))}
                 {
-                    !loading && customers.length === 0 && (
+                    !loading && !customers && (
                         <tr>
                             <td colSpan={3} style={{textAlign: "center"}}>No customers found!</td>
                         </tr>

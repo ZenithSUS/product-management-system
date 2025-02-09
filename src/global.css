@@ -115,9 +115,10 @@ header {
   }
 }
 
-input {
+input, select, option {
   padding: 10px 10px;
   border-radius: 20px;
+  margin-bottom: 10px;
   width: 100%;
   border: none;
   color: var(--dark-color);
