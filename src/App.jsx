@@ -7,7 +7,7 @@ import Orders from './navigation/orders';
 import { Customers } from "./navigation/customers";
 import { Login } from "./auth/login";
 import { Register } from "./auth/register";
-import { EditCustomer } from "./components/forms";
+import { EditCustomer } from "./components/forms/customers/edit-customer";
 
 function App() {
   const { token } = useStateContext();

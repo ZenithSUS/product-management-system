@@ -32,6 +32,11 @@
             gap: 2px;
         }
 
+        .avail-quantity {
+            color: var(--light-color);
+            font-size: 1.2rem;
+        }
+
         .button-options {
             display: flex;
             margin-top: 10px;

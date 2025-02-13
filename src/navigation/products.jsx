@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useStateContext } from "../context/context_provider";
-import { ProductTable } from "../components/tables";
-import { Header, Sidebar } from "../components/ui_parts";
+import { ProductTable } from "../components/tables/products";
+import { Header } from '../components/ui/header';
+import { Sidebar } from '../components/ui/sidebar';
 import { Navigate } from "react-router-dom";
 
 export function Products() {

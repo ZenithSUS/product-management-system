@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Link, useNavigate } from "react-router-dom";
-import { useStateContext } from "../context/context_provider";
-import "../styles/dashboard.css";
+import React, { useEffect } from "react";
+import { useStateContext } from "../../context/context_provider";
+import "../../styles/dashboard.css";
 
 
 export function Header() {
@@ -46,17 +45,4 @@ export function Header() {
     );
 }
 
-export function Sidebar() {
-    return (
-        <div className="sidebar">
-            <h2>Navigation</h2>
-            <ul>
-                <li><Link to="/dashboard">Dashboard</Link></li>
-                <li><Link to="/products">Products</Link></li>
-                <li><Link to="/orders">Orders</Link></li>
-                <li><Link to="/customers">Customers</Link></li>
-            </ul>
-        </div>
-    );
-}
-
+export default Header;

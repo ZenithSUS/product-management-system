@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { CustomerTable } from "../components/tables";
+import { CustomerTable } from "../components/tables/customers";
 import { useStateContext } from "../context/context_provider";
-import { Header, Sidebar } from "../components/ui_parts";
-import { AddCustomer } from "../components/forms";
+import { Header } from '../components/ui/header';
+import { Sidebar } from '../components/ui/sidebar';
+import { AddCustomer } from "../components/forms/customers/add-customer";
 
 export function Customers(){
     const { token, loading, setLoading, changed, setChanged } = useStateContext();

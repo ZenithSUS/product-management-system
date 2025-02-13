@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Header, Sidebar } from '../components/ui_parts';
+import { Header } from '../components/ui/header';
+import { Sidebar } from '../components/ui/sidebar';
 import { useStateContext } from "../context/context_provider";
 import { Navigate } from "react-router-dom";
 

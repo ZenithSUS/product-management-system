@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useStateContext } from "../context/context_provider";
-import { OrderTable } from "../components/tables";
-import { Header, Sidebar } from "../components/ui_parts";
 import { Navigate } from "react-router-dom";
-import { AddOrder } from "../components/forms";
+import { useStateContext } from "../context/context_provider";
+import { Header } from '../components/ui/header';
+import { Sidebar } from '../components/ui/sidebar';
+import { OrderTable } from "../components/tables/orders";
+import { AddOrder } from "../components/forms/orders/add-order";
 
 export function Orders() {
     const { token, loading, setLoading, changed, setChanged } = useStateContext();
@@ -56,7 +57,7 @@ export function Orders() {
                     </div>
                 )}
             
-            { showForm && <AddOrder setShowForm={setShowForm}/> }
+            { showForm && <AddOrder setShowForm={setShowForm} orders={orders}/> }
             </main>
         </>
     );
