@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useStateContext } from "../../../context/context_provider";
+import { FetchCustomer } from "../../../services/api";
 import { Header } from '../../ui/header';
 import { Sidebar } from '../../ui/sidebar';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import '../../../styles/forms.css'
 
 export const EditCustomer = () => {
+    const Navigate = useNavigate();
     const { token } = useStateContext();
     const { customerID } = useParams();
     const [customer, setCustomer] = useState({ name: "", email: "" });
@@ -14,26 +16,8 @@ export const EditCustomer = () => {
     const emailRef = useRef();
 
     useEffect(() => {
-        fetchCustomer(customerID);
-    }, [customerID]);
-
-    async function fetchCustomer(customerID) {
-        const response = await fetch(`http://localhost/PMS_Api/request/customers.php?id=${customerID}`, {
-            method: "GET",
-            headers: {
-                "X-Authorization": `Bearer ${token}`,
-            },
-        });
-
-        const data = await response.json();
-
-        if (data.status === 200) {
-            setCustomer(data.data);
-        } else {
-            setErrors(data.error);
-            console.log(data.error);
-        }
-    }
+        FetchCustomer(token, setCustomer, customerID);
+    }, [token]);
 
     async function editCustomer(e) {
         e.preventDefault();
@@ -63,7 +47,7 @@ export const EditCustomer = () => {
 
     function handleCancel(e) {
         e.preventDefault();
-        window.location.href = '/customers';
+        Navigate('/customers');
     }
 
     function handleInputChange(e) {

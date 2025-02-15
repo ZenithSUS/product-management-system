@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useStateContext } from "../../../context/context_provider";
+import { FetchOrder, FetchOrders, FetchCustomers, FetchProducts } from "../../../services/api";
 import { Header } from "../../ui/header";
 import { Sidebar } from "../../ui/sidebar";
-
-export function EditOrder({ orders }) {
+export function EditOrder() {
+    const Navigate = useNavigate();
     const { orderID } = useParams();
     const { token } = useStateContext();
     const [ orderInfo, setOrderInfo ] = useState(
@@ -15,6 +16,7 @@ export function EditOrder({ orders }) {
             quantity: 0,
         }
     );
+    const [ orders, setOrders ] = useState([]);
     const [ customers, setCustomers ] = useState([]);
     const [ products, setProducts ] = useState([]);
     const [ errors, setErrors ] = useState({});
@@ -24,78 +26,12 @@ export function EditOrder({ orders }) {
     const quantity = useRef();
 
     useEffect(() => {
-        fetchOrder(orderID);
-        fetchCustomer();
-        fetchProduct();
+        FetchOrder(token, setOrderInfo, orderID);
+        FetchOrders(token, setOrders)
+        FetchCustomers(token, setCustomers)
+        FetchProducts(token, setProducts)
     }, []);
 
-    async function fetchOrder(orderID) {
-        try {
-            const response = await fetch(`http://localhost/PMS_Api/request/orders.php?id=${orderID}`, {
-                method: "GET",
-                headers: {
-                    "X-Authorization": `Bearer ${token}`
-                }
-            });
-    
-            const data = await response.json();
-    
-            if (data && data.status === 200) {
-                setOrderInfo(data.data);
-                console.log(data.data);
-            } else {
-                setErrors(data.error);
-                console.log(data.error);
-            }
-        } catch (error) {
-            console.log(error);
-        }   
-        
-    }
-
-    async function fetchCustomer() {
-        try {
-            const formData = new FormData();
-            formData.append('process', 'get_all_customers');
-            const response = await fetch('http://localhost/PMS_Api/request/customers.php', {
-                method: "POST",
-                headers: {
-                    "X-Authorization": `Bearer ${token}`
-                },
-                body: formData
-            });
-
-            const data = await response.json();
-            if (data && data.status === 200) {
-                setCustomers(data.data);
-                console.log(data.data);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    async function fetchProduct() {
-        try {
-            const formData = new FormData();
-            formData.append('process', 'get_all_products');
-            const response = await fetch('http://localhost/PMS_Api/request/products.php', {
-                method: "POST",
-                headers: {
-                    "X-Authorization": `Bearer ${token}`
-                },
-                body: formData
-            });
-
-            const data = await response.json();
-            if (data && data.status === 200) {
-                setProducts(data.data);
-                console.log(data.data);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
 
     function updateOrder(e) {
         e.preventDefault();
@@ -132,8 +68,18 @@ export function EditOrder({ orders }) {
             const product = products.find(product => product.id === productIdInput);
             if (product) {
                 const totalPurchased = getTotalPurchases(productName);
-                const available = product.quantity - (quantityInput + totalPurchased);
-                setAvailableQuantity(available && available >= 0 ? available : 0);
+
+                if(product.quantity < quantityInput) {
+                    setAvailableQuantity(0);
+                    return;
+                }
+
+                if(product.quantity > quantityInput) {
+                    setAvailableQuantity(product.quantity - quantityInput);
+                    return;
+                }
+                const available = product.quantity - totalPurchased;
+                setAvailableQuantity(available >= quantityInput ? available - quantityInput : 0);
             }
         }
     }
@@ -160,8 +106,9 @@ export function EditOrder({ orders }) {
         getAvailQuantity(selectedOption.dataset.id, selectedOption.value);
     }
 
-    function handleCancel() {
-        window.location.href = "/orders";
+    function handleCancel(e) {
+        e.preventDefault();
+        Navigate('/orders');
     }
 
     return (

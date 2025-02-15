@@ -9,10 +9,8 @@ export function CustomerTable({ customers }) {
 
     async function handleDelete(id) {
         try {
-            if(!confirm('Are you sure do you want to delete this customer?')){
-                return
-            }
-
+            if(!confirm('Are you sure do you want to delete this customer?')) return;
+    
             const response = await fetch(`http://localhost/PMS_Api/request/customers.php?id=${id}`, {
                 method: 'DELETE',
                 headers: {
@@ -21,10 +19,8 @@ export function CustomerTable({ customers }) {
             });
 
             const data = await response.json();
+            data.status === 200 ? setChanged(true) : console.log(data.error);
 
-            if(data.status === 200) {
-                setChanged(true);
-            }
         } catch (error) {
             console.log(error);
         } 
@@ -52,7 +48,7 @@ export function CustomerTable({ customers }) {
                         <td>{customer.email}</td>
                         <td>
                             <div className="button-options">
-                                <button onClick={() => { Navigate(`/edit-customer/${customer.id}`)}}>Edit</button>
+                                <button onClick={() => { Navigate(`/customers/${customer.id}`)}}>Edit</button>
                                 <button className="delete-btn" onClick={() => { handleDelete(customer.id) } }>Delete</button>
                             </div>
                         </td>

@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useStateContext } from "../../context/context_provider";
 
 export function OrderTable({ orders }) {
+    const Navigate = useNavigate();
     const { loading, token, setChanged } = useStateContext();
 
     async function handleDelete(id) {
@@ -45,7 +47,7 @@ export function OrderTable({ orders }) {
                         <td>{order.quantity}</td>
                         <td>
                             <div className="button-options">
-                                <button onClick={() => window.location.href = `/orders/${order.id}`}>Edit</button>
+                                <button onClick={() => Navigate(`/orders/${order.id}`)}>Edit</button>
                                 <button className="delete-btn" onClick={() => handleDelete(order.id)}>Delete</button>
                             </div>
                         </td>

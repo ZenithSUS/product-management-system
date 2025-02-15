@@ -13,14 +13,16 @@
   .overall-data {
     display: flex;
     margin-top: 20px;
-    gap: 20px;  
+    width: 100%;
+    justify-content: space-between;
   
     .card {
       background-color: var(--primary-color);
       border-radius: 8px;
       padding: 20px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      width: 300px;
+      color: var(--light-color);
+      width: 30%;
   
       h3 {
         margin: 0;

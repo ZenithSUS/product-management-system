@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useStateContext } from "../../../context/context_provider";
+import { FetchCustomers, FetchProducts } from "../../../services/api";
 import '../../../styles/forms.css'
 
 export const AddOrder = ({ setShowForm, orders }) => {
@@ -14,54 +15,9 @@ export const AddOrder = ({ setShowForm, orders }) => {
     const productOption = useRef();
 
     useEffect(() => {
-        fetchCustomer();
-        fetchProduct();
+        FetchCustomers(token, setCustomers);
+        FetchProducts(token, setProducts);
     }, []);
-
-    async function fetchCustomer() {
-        try {
-            const formData = new FormData();
-            formData.append('process', 'get_all_customers');
-            const response = await fetch('http://localhost/PMS_Api/request/customers.php', {
-                method: "POST",
-                headers: {
-                    "X-Authorization": `Bearer ${token}`
-                },
-                body: formData
-            });
-
-            const data = await response.json();
-            if (data && data.status === 200) {
-                setCustomers(data.data);
-                console.log(data.data);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    async function fetchProduct() {
-        try {
-            const formData = new FormData();
-            formData.append('process', 'get_all_products');
-            const response = await fetch('http://localhost/PMS_Api/request/products.php', {
-                method: "POST",
-                headers: {
-                    "X-Authorization": `Bearer ${token}`
-                },
-                body: formData
-            });
-
-            const data = await response.json();
-            if (data && data.status === 200) {
-                setProducts(data.data);
-                console.log(data.data);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -153,7 +109,7 @@ export const AddOrder = ({ setShowForm, orders }) => {
                         <span className="avail-quantity">Available Quantity: {availableQuantity}</span>
                     </div>
                     <div className="button-options">
-                        <button onClick={handleSubmit}>Add Order</button>
+                        <button type="submit" onClick={handleSubmit}>Add Order</button>
                         <button onClick={() => setShowForm(false)}>Cancel</button>
                     </div>
                 </form>
