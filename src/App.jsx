@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useStateContext } from "./context/context_provider";
+import { useState, useEffect } from "react";
 import './styles/dashboard.css';
 import Dashboard from './navigation/dashboard';
 import Products from './navigation/products';
@@ -8,15 +9,27 @@ import { Customers } from "./navigation/customers";
 import { Login } from "./auth/login";
 import { Register } from "./auth/register";
 import { EditCustomer } from "./components/forms/customers/edit-customer";
+import { EditOrder } from "./components/forms/orders/edit-order";
+import { FetchOrders, FetchCustomers, FetchProducts } from "./services/api";
 
 function App() {
   const { token } = useStateContext();
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    if(!token) return;
+
+    FetchOrders(token, setOrders);
+
+  }, [token]);
+
   return (
     <Router>
       <Routes>
-        <Route path="/dashboard" element={token ? <Dashboard/> : <Navigate to="/login" />} />
+        <Route path="/dashboard" element={token ? <Dashboard /> : <Navigate to="/login" />} />
         <Route path="/products" element={token ? <Products /> : <Navigate to="/login" />} />
         <Route path="/orders" element={token ? <Orders /> : <Navigate to="/login" />} />
+        <Route path="/orders/:orderID" element={token ? <EditOrder orders={orders} /> : <Navigate to="/login" />} />
         <Route path="/customers" element={token ? <Customers /> : <Navigate to="/login" />}  />
         <Route path="/edit-customer/:customerID" element={token ? <EditCustomer /> : <Navigate to="/login" />} />
         <Route path="/login" element={token ? <Navigate to="/dashboard" /> : <Login />} />

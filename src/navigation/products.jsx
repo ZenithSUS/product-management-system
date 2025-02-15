@@ -4,9 +4,10 @@ import { ProductTable } from "../components/tables/products";
 import { Header } from '../components/ui/header';
 import { Sidebar } from '../components/ui/sidebar';
 import { Navigate } from "react-router-dom";
+import { FetchProducts } from "../services/api";
 
 export function Products() {
-    const { token, setLoading } = useStateContext();
+    const { token, setLoading, changed, setChanged } = useStateContext();
     const [products, setProducts] = useState([]);
 
     if(!token) {
@@ -14,31 +15,8 @@ export function Products() {
     }
 
     useEffect(() => {
-        getAllProducts();
-    }, [token]);
-
-    async function getAllProducts() {
-        try {
-            setLoading(true);
-            const formData = new FormData();
-            formData.append("process", "get_all_products");
-
-            const response = await fetch("http://localhost/PMS_Api/request/products.php", {
-                method: "POST",
-                headers: {
-                    "X-Authorization": `Bearer ${token}`,
-                },
-                body: formData,
-            });
-
-            const data = await response.json();
-            setProducts(data.data);
-        } catch {
-            console.log(error);
-        } finally {
-            setLoading(false);
-        }
-    }
+        FetchProducts(token, setProducts, setLoading, setChanged);
+    }, [token, changed]);
     
     return (
         <>

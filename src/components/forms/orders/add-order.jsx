@@ -112,12 +112,10 @@ export const AddOrder = ({ setShowForm, orders }) => {
     }
 
     function getTotalPurchases(productNametoFind) {
-        console.log(productNametoFind);
         let totalPurchases = 0;
         if(orders && orders.length > 0) {
             const productPurchased = orders.filter(order => order.productName === productNametoFind);
-            console.log(productPurchased);
-            productPurchased.map(purchase => (totalPurchases += purchase.quantity));
+            productPurchased.forEach(purchase => (totalPurchases += purchase.quantity));
         }
         return totalPurchases;
     }
@@ -139,7 +137,7 @@ export const AddOrder = ({ setShowForm, orders }) => {
                     </div>
                     <div className="input-field">
                         <label htmlFor="productName">Product Name</label>
-                        <select ref={productInfo} name="product" id="product" onInput={() => setErrors(prevErrors => ({...prevErrors, product: ""}))} onChange={(e) => getAvailQuantity(e.target.selectedOptions[0].getAttribute('data-name'))}>
+                        <select ref={productInfo} name="product" id="product" onInput={() => setErrors(prevErrors => ({...prevErrors, product: ""}))} onChange={(e) => getAvailQuantity(e.target.selectedOptions[0].dataset.name)}>
                             <option value="">Select</option>
                             {products && products.length > 0 && products.map((product) => (
                                 <option ref={productOption} key={product.id} value={product.id} data-name={product.name} data-quantity={product.quantity}>{product.name}</option>
@@ -150,7 +148,7 @@ export const AddOrder = ({ setShowForm, orders }) => {
                     </div>
                     <div className="input-field">
                         <label htmlFor="quantity">Quantity</label>
-                        <input ref={quantity} type="number" name="quantity" id="quantity" onInput={() => setErrors(prevErrors => ({...prevErrors, quantity: ""}))} />
+                        <input ref={quantity} type="number" name="quantity" id="quantity" onInput={() => {setErrors(prevErrors => ({...prevErrors, quantity: ""})); getAvailQuantity(productInfo.current.selectedOptions[0].dataset.name);}} />
                         {errors && errors.quantity && (<span className="errors">{errors.quantity}</span>)}
                         <span className="avail-quantity">Available Quantity: {availableQuantity}</span>
                     </div>

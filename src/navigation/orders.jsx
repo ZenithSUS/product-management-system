@@ -5,6 +5,7 @@ import { Header } from '../components/ui/header';
 import { Sidebar } from '../components/ui/sidebar';
 import { OrderTable } from "../components/tables/orders";
 import { AddOrder } from "../components/forms/orders/add-order";
+import { FetchOrders } from "../services/api";
 
 export function Orders() {
     const { token, loading, setLoading, changed, setChanged } = useStateContext();
@@ -12,33 +13,9 @@ export function Orders() {
     const [ showForm, setShowForm ] = useState(false);
 
     useEffect(() => {
-        getAllOrders();
+        FetchOrders(token, setOrders, setLoading, setChanged);
     }, [token, changed]);
 
-    async function getAllOrders() {
-        try {
-            setChanged(false);
-            setLoading(true);
-            const formData = new FormData();
-            formData.append("process", "get_all_orders");
-
-            const response = await fetch("http://localhost/PMS_Api/request/orders.php", {
-                method: "POST",
-                headers : {
-                    "X-Authorization": `Bearer ${token}`,
-                },
-                body: formData,
-            });
-
-            const data = await response.json();
-            console.log(data)
-            setOrders(data.data);
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setLoading(false);
-        }
-    }
 
     if(!token) {
         return <Navigate to='/login' />

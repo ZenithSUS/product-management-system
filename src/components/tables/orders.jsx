@@ -45,7 +45,7 @@ export function OrderTable({ orders }) {
                         <td>{order.quantity}</td>
                         <td>
                             <div className="button-options">
-                                <button>Edit</button>
+                                <button onClick={() => window.location.href = `/orders/${order.id}`}>Edit</button>
                                 <button className="delete-btn" onClick={() => handleDelete(order.id)}>Delete</button>
                             </div>
                         </td>

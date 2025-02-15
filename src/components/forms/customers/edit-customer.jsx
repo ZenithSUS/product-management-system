@@ -69,7 +69,6 @@ export const EditCustomer = () => {
     function handleInputChange(e) {
         const { name, value } = e.target;
         setCustomer(prevCustomer => ({ ...prevCustomer, [name]: value }));
-        console.log(customer.name)
     }
 
     return (

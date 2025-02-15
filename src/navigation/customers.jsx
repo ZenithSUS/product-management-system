@@ -4,6 +4,7 @@ import { useStateContext } from "../context/context_provider";
 import { Header } from '../components/ui/header';
 import { Sidebar } from '../components/ui/sidebar';
 import { AddCustomer } from "../components/forms/customers/add-customer";
+import { FetchCustomers } from "../services/api";
 
 export function Customers(){
     const { token, loading, setLoading, changed, setChanged } = useStateContext();
@@ -11,43 +12,7 @@ export function Customers(){
     const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
-        let isMounted = true;
-        setChanged(false);
-        
-        async function getAllCustomers () {
-            setLoading(true);
-
-            try {
-                const formData = new FormData();
-                formData.append("process", "get_all_customers");
-                const response = await fetch("http://localhost/PMS_Api/request/customers.php", 
-                    { 
-                        method: "POST",
-                        headers: {
-                            "X-Authorization": `Bearer ${token}`,
-                        },
-                        body: formData,
-                    }
-                )
-                const data = await response.json();
-                if (isMounted) {
-                    setCustomers(data.data);
-                }
-
-            } catch (error) {
-                console.log(error);
-            } finally { 
-                if (isMounted) {
-                    setLoading(false);
-                }
-            }
-        }
-
-        getAllCustomers();
-
-        return () => {
-            isMounted = false;
-        };
+        FetchCustomers(token, setCustomers, setLoading, setChanged);
     }, [token, changed]);
 
     return (
