@@ -56,7 +56,7 @@ export function ProductTable({ products }) {
                     </tr>
                 ))}
                 {
-                    !loading && products.length === 0 && (
+                    !loading && (!products || products.length === 0) && (
                         <tr>
                             <td colSpan={4} style={{textAlign: "center"}}>No products found!</td>
                         </tr>

@@ -54,7 +54,7 @@ export function OrderTable({ orders }) {
                     </tr>
                 ))}
                 {
-                    !loading && !orders && (
+                    !loading && (!orders || orders.length === 0) && (
                         <tr>
                             <td colSpan={4} style={{textAlign: "center"}}>No orders found!</td>
                         </tr>

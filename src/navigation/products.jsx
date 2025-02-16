@@ -10,6 +10,7 @@ import { FetchProducts } from "../services/api";
 export function Products() {
     const { token, loading, setLoading, changed, setChanged } = useStateContext();
     const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
     const [ showForm, setShowForm ] = useState(false);
 
     if(!token) {
@@ -17,18 +18,34 @@ export function Products() {
     }
 
     useEffect(() => {
-        FetchProducts(token, setProducts, setLoading, setChanged);
+        FetchProducts(token, (data) => {
+            setProducts(data);
+            setFilteredProducts(data);
+        }, setLoading, setChanged);
     }, [token, changed]);
     
+
+    function handleSearch (e) {
+        const search = e.target.value.toLowerCase();
+        const filtered = products.filter(product => product.name.toLowerCase().includes(search));
+        setFilteredProducts(filtered);
+    }
     return (
         <>
             <Header />
             <Sidebar />
             <main>
                 <h2>Products</h2>
-                <ProductTable products={products} />
+                <ProductTable products={filteredProducts} />
                 {!loading && (
-                    <button onClick={() => setShowForm(true)}>Add Product</button>
+                    <div className="table-options">
+                        <div className="search-bar">
+                            <input type="text" placeholder="Search..." onChange={handleSearch} />
+                        </div>
+                        <div className="button-options">
+                            <button onClick={() => setShowForm(true)}>Add Product</button>
+                        </div>
+                    </div>
                 )}
                 {showForm && <AddProduct setShowForm={setShowForm} />}
             </main>

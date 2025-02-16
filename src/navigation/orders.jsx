@@ -10,15 +10,24 @@ import { FetchOrders } from "../services/api";
 export function Orders() {
     const { token, loading, setLoading, changed, setChanged } = useStateContext();
     const [orders, setOrders] = useState([]);
+    const [filteredOrders, setFilteredOrders] = useState([]);
     const [ showForm, setShowForm ] = useState(false);
 
     useEffect(() => {
-        FetchOrders(token, setOrders, setLoading, setChanged);
-    }, [token, changed]);
-
+        FetchOrders(token, (data) => {
+            setOrders(data);
+            setFilteredOrders(data);
+        }, setLoading, setChanged);
+    }, [token, changed]);   
 
     if(!token) {
         return <Navigate to='/login' />
+    }
+
+    function handleSearch(e) {
+        const search = e.target.value.toLowerCase();
+        const filtered = orders.filter(order => order.customerName.toLowerCase().includes(search));
+        setFilteredOrders(filtered);
     }
     
     return (
@@ -27,10 +36,15 @@ export function Orders() {
             <Sidebar />
             <main>
                 <h2>Orders</h2>
-                <OrderTable orders={orders} />
+                <OrderTable orders={filteredOrders} />
                 { !loading && (
-                    <div className="button-options">
-                        <button onClick={() => setShowForm(true)}>Add Order</button>
+                    <div className="table-options">
+                        <div className="search-bar">
+                            <input type="text" placeholder="Search..." onChange={handleSearch} />
+                        </div>
+                        <div className="button-options">
+                            <button onClick={() => setShowForm(true)}>Add Order</button>
+                        </div>
                     </div>
                 )}
             

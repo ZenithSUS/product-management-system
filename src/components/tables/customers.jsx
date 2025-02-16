@@ -55,7 +55,7 @@ export function CustomerTable({ customers }) {
                     </tr>
                 ))}
                 {
-                    !loading && !customers && (
+                    !loading && (!customers || customers.length === 0) && (
                         <tr>
                             <td colSpan={3} style={{textAlign: "center"}}>No customers found!</td>
                         </tr>

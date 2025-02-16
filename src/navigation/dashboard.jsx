@@ -13,7 +13,7 @@ export function Dashboard() {
 
     useEffect(() => {
         GetAllData(token, setCustomers, setOrders, setProducts, setLoading);
-    }, []);
+    }, [token]);
 
     if(!token) return <Navigate to="/login" />   
     

@@ -57,6 +57,18 @@ main {
   background-color: var(--secondary-color);
   padding: 20px;
   margin-left: calc(250px + 2rem);
+
+  .table-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: var(--primary-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 }
 
 header {
