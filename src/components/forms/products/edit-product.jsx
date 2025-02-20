@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useStateContext } from "../../../context/context_provider";
-import { FetchProduct } from "../../../services/api";
+import { FetchProduct } from "../../../services/product-api";
 import { Header } from "../../ui/header";
 import { Sidebar } from "../../ui/sidebar";
 import { useParams, Navigate } from "react-router-dom";

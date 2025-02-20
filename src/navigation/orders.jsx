@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Navigate } from "react-router-dom";
 import { useStateContext } from "../context/context_provider";
 import { Header } from '../components/ui/header';
 import { Sidebar } from '../components/ui/sidebar';
 import { OrderTable } from "../components/tables/orders";
 import { AddOrder } from "../components/forms/orders/add-order";
-import { FetchOrders } from "../services/api";
+import { FetchOrders } from "../services/order-api";
 
 export function Orders() {
     const { token, loading, setLoading, changed, setChanged } = useStateContext();
     const [orders, setOrders] = useState([]);
     const [filteredOrders, setFilteredOrders] = useState([]);
     const [ showForm, setShowForm ] = useState(false);
+    const formRef = useRef(null);
 
     useEffect(() => {
         FetchOrders(token, (data) => {
@@ -29,6 +30,16 @@ export function Orders() {
         const filtered = orders.filter(order => order.customerName.toLowerCase().includes(search));
         setFilteredOrders(filtered);
     }
+
+    function scrollToTarget() {
+        if(formRef.current) {
+            formRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+                inline: 'nearest',
+            })
+        }
+    }
     
     return (
         <>
@@ -43,12 +54,12 @@ export function Orders() {
                             <input type="text" placeholder="Search..." onChange={handleSearch} />
                         </div>
                         <div className="button-options">
-                            <button onClick={() => setShowForm(true)}>Add Order</button>
+                            <button onClick={() => {setShowForm(true); scrollToTarget();}}>Add Order</button>
                         </div>
                     </div>
                 )}
             
-            { showForm && <AddOrder setShowForm={setShowForm} orders={orders}/> }
+            { showForm && <AddOrder setShowForm={setShowForm} orders={orders} formRef={formRef} /> }
             </main>
         </>
     );

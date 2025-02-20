@@ -1,9 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useStateContext } from "../../../context/context_provider";
-import { FetchCustomers, FetchProducts } from "../../../services/api";
+import { FetchProducts } from "../../../services/product-api";
+import { FetchCustomers } from "../../../services/customer-api";
 import '../../../styles/forms.css'
 
-export const AddOrder = ({ setShowForm, orders }) => {
+export const AddOrder = ({ setShowForm, orders, formRef }) => {
     const { token, setChanged } = useStateContext();
     const [errors, setErrors] = useState({});
     const [customers, setCustomers] = useState([]);
@@ -78,29 +79,29 @@ export const AddOrder = ({ setShowForm, orders }) => {
         
     return (
         <>
-            <div className="add-container">
+            <div className="add-container" ref={formRef}>
                 <form>
                     <h1>Add Order</h1>
                     <div className="input-field">
                         <label htmlFor="customerName">Customer Name</label>
-                        <select ref={customerInfo} name="customer" id="customer" onInput={() => setErrors(prevErrors => ({...prevErrors, customer: ""}))} >
+                        <select ref={customerInfo} name="customer" id="customer" onInput={() => setErrors(prevErrors => ({...prevErrors, customerName: ""}))} >
                             <option value="">Select</option>
                             {customers && customers.length > 0 && customers.map((customer) => (
                                 <option key={customer.id} value={customer.id}>{customer.name}</option>
                             ))}
                         </select>
-                        {errors && errors.customer && (<span className="errors">{errors.customer}</span>)}
+                        {errors && errors.customerName && (<span className="errors">{errors.customerName}</span>)}
                     </div>
                     <div className="input-field">
                         <label htmlFor="productName">Product Name</label>
-                        <select ref={productInfo} name="product" id="product" onInput={() => setErrors(prevErrors => ({...prevErrors, product: ""}))} onChange={(e) => getAvailQuantity(e.target.selectedOptions[0].dataset.name)}>
+                        <select ref={productInfo} name="product" id="product" onInput={() => setErrors(prevErrors => ({...prevErrors, productName: ""}))} onChange={(e) => getAvailQuantity(e.target.selectedOptions[0].dataset.name)}>
                             <option value="">Select</option>
                             {products && products.length > 0 && products.map((product) => (
                                 <option ref={productOption} key={product.id} value={product.id} data-name={product.name} data-quantity={product.quantity}>{product.name}</option>
                             ))}
                             {products && products.length === 0 && <option value="">No products found</option>}
                         </select>
-                        {errors && errors.product && (<span className="errors">{errors.product}</span>)}
+                        {errors && errors.productName && (<span className="errors">{errors.productName}</span>)}
                     </div>
                     <div className="input-field">
                         <label htmlFor="quantity">Quantity</label>

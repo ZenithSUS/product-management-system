@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { useStateContext } from "../../../context/context_provider";
 import '../../../styles/forms.css'
 
-export const AddCustomer = ({ setShowForm }) => {
+export const AddCustomer = ({ setShowForm, formRef }) => {
     const nameRef = useRef();
     const emailRef = useRef();
     const { token, setChanged } = useStateContext();
@@ -36,7 +36,7 @@ export const AddCustomer = ({ setShowForm }) => {
     }
 
     return (
-        <div className="add-container">
+        <div className="add-container" ref={formRef}>
             <form>
             <h1>Add Customer</h1>
                 <div className="input-field">

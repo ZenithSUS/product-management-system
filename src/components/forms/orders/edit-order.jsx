@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useStateContext } from "../../../context/context_provider";
-import { FetchOrder, FetchOrders, FetchCustomers, FetchProducts } from "../../../services/api";
+import { FetchProducts } from "../../../services/product-api";
+import { FetchCustomers } from "../../../services/customer-api";
+import { FetchOrder, FetchOrders } from "../../../services/order-api";
 import { Header } from "../../ui/header";
 import { Sidebar } from "../../ui/sidebar";
+
 export function EditOrder() {
     const Navigate = useNavigate();
     const { orderID } = useParams();
@@ -69,13 +72,9 @@ export function EditOrder() {
             if (product) {
                 const totalPurchased = getTotalPurchases(productName);
 
-                if(product.quantity < quantityInput) {
-                    setAvailableQuantity(0);
-                    return;
-                }
-
                 if(product.quantity > quantityInput) {
-                    setAvailableQuantity(product.quantity - quantityInput);
+                    const available = product.quantity - (quantityInput + totalPurchased);
+                    setAvailableQuantity(available >= 0 ? available : 0);
                     return;
                 }
                 const available = product.quantity - totalPurchased;
@@ -86,7 +85,7 @@ export function EditOrder() {
 
     function getTotalPurchases(productName) {
         const totalPurchased = orders.reduce((total, order) => {
-            if (order.productName === productName) {
+            if (order.productName === productName && order.id !== orderID) {
                 return total + order.quantity;
             }
             return total;

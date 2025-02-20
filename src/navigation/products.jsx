@@ -5,7 +5,7 @@ import { Header } from '../components/ui/header';
 import { Sidebar } from '../components/ui/sidebar';
 import { Navigate } from "react-router-dom";
 import { AddProduct } from "../components/forms/products/add-product";
-import { FetchProducts } from "../services/api";
+import { FetchProducts } from "../services/product-api";
 
 export function Products() {
     const { token, loading, setLoading, changed, setChanged } = useStateContext();
